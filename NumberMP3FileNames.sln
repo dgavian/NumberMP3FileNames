@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33801.468
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NumberMP3FileNames", "NumberMP3FileNames\NumberMP3FileNames.csproj", "{C9DBACF5-C58B-4066-A123-DEEE6230AA08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberMP3FileNames.Test", "NumberMP3FileNames.Test\NumberMP3FileNames.Test.csproj", "{51B93E97-D39E-4A6A-BC42-287035FBD703}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9DBACF5-C58B-4066-A123-DEEE6230AA08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9DBACF5-C58B-4066-A123-DEEE6230AA08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9DBACF5-C58B-4066-A123-DEEE6230AA08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9DBACF5-C58B-4066-A123-DEEE6230AA08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51B93E97-D39E-4A6A-BC42-287035FBD703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51B93E97-D39E-4A6A-BC42-287035FBD703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51B93E97-D39E-4A6A-BC42-287035FBD703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51B93E97-D39E-4A6A-BC42-287035FBD703}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE6FA628-3103-45D4-85F6-707D308C8CE3}
+	EndGlobalSection
+EndGlobal
