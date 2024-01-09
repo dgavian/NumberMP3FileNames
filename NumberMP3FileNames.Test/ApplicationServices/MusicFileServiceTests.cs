@@ -20,6 +20,10 @@ namespace NumberMP3FileNames.Test.ApplicationServices
         [TestCase(@"C:\Music\Alvvays\Alvvays", false)]
         [TestCase(@"C:\Music\Amazon MP3\Belle And Sebastian\The Boy With The Arab Strap", true)]
         [TestCase(@"C:\Music\Beabadoobee\Beabadoobee - Space Cadet - mp3", true)]
+        [TestCase(@"C:\Music\Backing Tracks", true)]
+        [TestCase(@"C:\Music\BBBT", true)]
+        [TestCase(@"C:\Music\My Recordings", true)]
+        [TestCase(@"C:\Music\Guitar For Kids\__MACOSX\MP3", true)]
         public void SkipDirectory_MixOfPaths_ReturnsExpectedResult(string path, bool expected)
         {
             var sut = MakeSut();
@@ -88,6 +92,50 @@ namespace NumberMP3FileNames.Test.ApplicationServices
             Assert.That(actual, Is.False);
         }
 
+        [TestCase(@"C:\Music\bandcamp\boygenius\the record", true)]
+        [TestCase(@"C:\Music\Desmond Dekker\Rockin' Steady- The Best of Desmond Dekker", false)]
+        public void IsBandcamp_MixOfPaths_ReturnsExpectedResult(string path, bool expected)
+        {
+            var sut = MakeSut();
+
+            var actual = sut.IsBandcamp(path);
+
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void FixBandcampFileNames_BandcampFileNames_CallsRenameWithExpectedValue()
+        {
+            var files = GetBandcampFiles();
+            var sut = MakeSut();
+            var expectedTrack1FileName = "01 Beat, Perpetual.mp3";
+            var expectedTrack2FileName = "02 Hope Gets Harder.mp3";
+
+            sut.FixBandcampFileNames(files);
+
+            fileIOServiceFake.Verify(f => f.RenameFile(files[0], expectedTrack1FileName), Times.Once);
+            fileIOServiceFake.Verify(f => f.RenameFile(files[1], expectedTrack2FileName), Times.Once);
+        }
+
+        [Test]
+        public void PrependNumberToFiles_FilesWithoutTrackNumbers_RenamesWithTrackNumbersPrepended()
+        {
+            var files = GetFilesWithoutTrackNumbers();
+            musicTagServiceFake.Setup(f => f.GetTrackNumber(files[0])).Returns(1);
+            musicTagServiceFake.Setup(f => f.GetTrackNumber(files[1])).Returns(2);
+            musicTagServiceFake.Setup(f => f.GetTrackNumber(files[2])).Returns(3);
+            var expectedTrack1FileName = "01-For What It's Worth.mp3";
+            var expectedTrack2FileName = "02-Sit Down I Think I Love You.mp3";
+            var expectedTrack3FileName = "03-Nowadays Clancy Can't Even Sing.mp3";
+            var sut = MakeSut();
+
+            sut.PrependNumberToFiles(files);
+
+            fileIOServiceFake.Verify(f => f.RenameFile(files[0], expectedTrack1FileName), Times.Once);
+            fileIOServiceFake.Verify(f => f.RenameFile(files[1], expectedTrack2FileName), Times.Once);
+            fileIOServiceFake.Verify(f => f.RenameFile(files[2], expectedTrack3FileName), Times.Once);
+        }
+
         private MusicFileService MakeSut()
         {
             return new MusicFileService(musicTagServiceFake.Object, fileIOServiceFake.Object);
@@ -129,6 +177,15 @@ namespace NumberMP3FileNames.Test.ApplicationServices
                 @"C:\Music\Buffalo Springfield\Buffalo Springfield [Collection]\For What It's Worth.mp3",
                 @"C:\Music\Buffalo Springfield\Buffalo Springfield [Collection]\Sit Down I Think I Love You.mp3",
                 @"C:\Music\Buffalo Springfield\Buffalo Springfield [Collection]\Nowadays Clancy Can't Even Sing.mp3"
+            };
+        }
+
+        private string[] GetBandcampFiles()
+        {
+            return new[]
+            {
+                @"C:\Music\bandcamp\Martha\Please Don't Take Me Back\Martha - Please Don't Take Me Back - 01 Beat, Perpetual.mp3",
+                @"C:\Music\bandcamp\Martha\Please Don't Take Me Back\Martha - Please Don't Take Me Back - 02 Hope Gets Harder.mp3"
             };
         }
     }

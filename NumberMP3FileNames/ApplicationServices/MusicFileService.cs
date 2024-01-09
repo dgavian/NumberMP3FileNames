@@ -70,7 +70,6 @@ namespace NumberMP3FileNames.ApplicationServices
                 var formattedTrackNumber = trackNumber.ToString("D2");
                 var newFileName = $"{formattedTrackNumber}-{fileName}";
                 _fileService.RenameFile(f, newFileName);
-                // Console.WriteLine("Successfully renamed {0} to {1}", fileName, newFileName);
             }
         }
 
